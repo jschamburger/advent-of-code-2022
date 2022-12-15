@@ -17,6 +17,19 @@ fun main() {
     sum.println()
 
     // part 2
+    val groupedRucksacks = rucksacks.withIndex().groupBy { it.index / 3 }.map { entry -> entry.value.map { it.value } }
+
+    groupedRucksacks.map { rucksacksInGroup ->
+        // find common item and get its code
+        rucksacksInGroup.map {
+            it.bothCompartments.toSet()
+        }.reduce { acc, chars ->
+            acc.intersect(chars)
+        }.map {
+            it.ourCode()
+        }
+    }.sumOf { it.first() }.println()
+
 }
 
 private fun Char.ourCode(): Int {
@@ -27,4 +40,6 @@ private fun Char.ourCode(): Int {
     }
 }
 
-data class Rucksack(val compartment1: List<Char>, val compartment2: List<Char>)
+data class Rucksack(val compartment1: List<Char>, val compartment2: List<Char>) {
+    val bothCompartments = compartment1 + compartment2
+}
