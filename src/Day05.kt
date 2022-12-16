@@ -3,6 +3,21 @@ fun main() {
     val input = readInput("Day05")
 
     // part 1
+    val (process1, stacks1) = parseInput(input)
+    process1.forEach { step ->
+        stacks1.applyStep(Step.fromString(step))
+    }
+    stacks1.values.map { it.content.last() }.joinToString("").println()
+
+    // part 2
+    val (process2, stacks2) = parseInput(input)
+    process2.forEach { step ->
+        stacks2.applyStepMovingMultipleCrates(Step.fromString(step))
+    }
+    stacks2.values.map { it.content.last() }.joinToString("").println()
+}
+
+private fun parseInput(input: List<String>): Pair<List<String>, Map<Int, Stack>> {
     val indexOfEmptyLine = input.indexOf("")
     val situation = input.subList(0, indexOfEmptyLine)
     val process = input.subList(indexOfEmptyLine + 1, input.size)
@@ -21,13 +36,7 @@ fun main() {
             )
         )
     }.associateBy { it.number }
-    process.forEach { step ->
-        stacks.applyStep(Step.fromString(step))
-    }
-    stacks.values.map { it.content.last() }.joinToString("").println()
-
-    // part 2
-
+    return Pair(process, stacks)
 }
 
 private fun Map<Int, Stack>.applyStep(step: Step) {
@@ -35,6 +44,15 @@ private fun Map<Int, Stack>.applyStep(step: Step) {
         val element = this[step.from]!!.content.removeLast()
         this[step.to]!!.content.addLast(element)
     }
+}
+
+private fun Map<Int, Stack>.applyStepMovingMultipleCrates(step: Step) {
+    val elements = mutableListOf<Char>()
+    for (i in 0 until  step.number) {
+        val element = this[step.from]!!.content.removeLast()
+        elements.add(element)
+    }
+    this[step.to]!!.content.addAll(elements.reversed())
 }
 
 private fun transpose(
