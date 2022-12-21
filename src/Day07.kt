@@ -43,7 +43,7 @@ fun main() {
     candidates.minByOrNull { it.size }?.size.println()
 }
 
-fun isCommand(line: String): Boolean = line.startsWith("$")
+private fun isCommand(line: String): Boolean = line.startsWith("$")
 
 sealed class FileOrDirectory {
     abstract val name: String
