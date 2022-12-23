@@ -16,7 +16,7 @@ fun main() {
     grid.highestScenicScore().println()
 }
 
-data class Grid(val coordinates: MutableMap<Pair<Int, Int>, Int> = mutableMapOf()) {
+private data class Grid(val coordinates: MutableMap<Pair<Int, Int>, Int> = mutableMapOf()) {
 
     fun addValue(x: Int, y: Int, value: Int) {
         coordinates[Pair(x, y)] = value
@@ -75,6 +75,6 @@ data class Grid(val coordinates: MutableMap<Pair<Int, Int>, Int> = mutableMapOf(
     }
 }
 
-enum class Direction {
+private enum class Direction {
     TOP, RIGHT, BOTTOM, LEFT;
 }
